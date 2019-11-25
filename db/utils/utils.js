@@ -8,6 +8,13 @@ exports.formatDates = list => {
   return deepCopy;
 };
 
-exports.makeRefObj = list => {};
+exports.makeRefObj = list => {
+  let refObj = {};
+
+  list.forEach(obj => {
+    refObj[obj.title] = obj.article_id;
+  });
+  return refObj;
+};
 
 exports.formatComments = (comments, articleRef) => {};

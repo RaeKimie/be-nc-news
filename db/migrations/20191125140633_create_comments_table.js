@@ -5,7 +5,6 @@ exports.up = function(knex) {
     commentsTable
       .string("author")
       .references("users.username")
-      .notNullable()
       .notNullable();
     commentsTable
       .integer("article_id")
