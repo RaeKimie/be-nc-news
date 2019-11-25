@@ -66,7 +66,7 @@ describe("formatDates", () => {
   });
 });
 
-describe.only("makeRefObj", () => {
+describe("makeRefObj", () => {
   it("returns an empty object when given an empty array", () => {
     const input = [];
     const output = {};
@@ -94,4 +94,62 @@ describe.only("makeRefObj", () => {
   });
 });
 
-describe("formatComments", () => {});
+describe.only("formatComments", () => {
+  it("returns an empty array when given an empty array", () => {
+    const input = [];
+
+    const output = [];
+    expect(formatComments(input)).to.deep.equal(output);
+  });
+  it("returns a formmated array of object using refObj", () => {
+    const input = [
+      {
+        body: "test",
+        belongs_to: "They're not exactly dogs, are they?",
+        created_by: "butter_bridge"
+      },
+      {
+        body: "test2",
+        belongs_to: "article title",
+        created_by: "narae"
+      }
+    ];
+    const refObj = {
+      "They're not exactly dogs, are they?": 1,
+      "article title": 2
+    };
+    const output = [
+      {
+        body: "test",
+        article_id: 1,
+        author: "butter_bridge"
+      },
+      {
+        body: "test2",
+        article_id: 2,
+        author: "narae"
+      }
+    ];
+    expect(formatComments(input, refObj)).to.deep.equal(output);
+  });
+  it("does not mutate the original array", () => {
+    const input = [
+      {
+        body: "test",
+        belongs_to: "They're not exactly dogs, are they?",
+        created_by: "butter_bridge"
+      }
+    ];
+    const refObj = {
+      "They're not exactly dogs, are they?": 1
+    };
+    formatComments(input, refObj);
+    expect(input).to.deep.equal([
+      {
+        body: "test",
+        belongs_to: "They're not exactly dogs, are they?",
+        created_by: "butter_bridge"
+      }
+    ]);
+  });
+});

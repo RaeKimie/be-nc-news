@@ -17,4 +17,8 @@ exports.makeRefObj = list => {
   return refObj;
 };
 
-exports.formatComments = (comments, articleRef) => {};
+exports.formatComments = (comments, articleRef) => {
+  return comments.map(({ belongs_to, created_by, ...rest }) => {
+    return { ...rest, author: created_by, article_id: articleRef[belongs_to] };
+  });
+};
