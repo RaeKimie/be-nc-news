@@ -11,6 +11,14 @@ beforeEach(() => knex.seed.run());
 after(() => knex.destroy());
 
 describe("app", () => {
+  it("status:404 for invalid path", () => {
+    return request(app)
+      .get("/not-a-path")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).to.equal("path not found");
+      });
+  });
   describe("/api", () => {
     describe("/topics", () => {
       describe("GET", () => {
