@@ -16,21 +16,6 @@ describe("formatDates", () => {
       {
         test: "test",
         created_at: 1542284514171
-      }
-    ];
-    const output = [
-      {
-        test: "test",
-        created_at: new Date(1542284514171)
-      }
-    ];
-    expect(formatDates(input)).to.deep.equal(output);
-  });
-  it("returns an array of objects with modified created_at values", () => {
-    const input = [
-      {
-        test: "test",
-        created_at: 1542284514171
       },
       {
         test: "test test",
@@ -94,7 +79,7 @@ describe("makeRefObj", () => {
   });
 });
 
-describe.only("formatComments", () => {
+describe("formatComments", () => {
   it("returns an empty array when given an empty array", () => {
     const input = [];
 
@@ -106,12 +91,14 @@ describe.only("formatComments", () => {
       {
         body: "test",
         belongs_to: "They're not exactly dogs, are they?",
-        created_by: "butter_bridge"
+        created_by: "butter_bridge",
+        created_at: 1542284514171
       },
       {
         body: "test2",
         belongs_to: "article title",
-        created_by: "narae"
+        created_by: "narae",
+        created_at: 1416140514171
       }
     ];
     const refObj = {
@@ -122,12 +109,14 @@ describe.only("formatComments", () => {
       {
         body: "test",
         article_id: 1,
-        author: "butter_bridge"
+        author: "butter_bridge",
+        created_at: new Date(1542284514171)
       },
       {
         body: "test2",
         article_id: 2,
-        author: "narae"
+        author: "narae",
+        created_at: new Date(1416140514171)
       }
     ];
     expect(formatComments(input, refObj)).to.deep.equal(output);

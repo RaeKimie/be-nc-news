@@ -1,11 +1,7 @@
 exports.formatDates = list => {
-  let deepCopy = JSON.parse(JSON.stringify(list));
-  deepCopy.forEach(obj => {
-    let milliseconds = obj.created_at;
-    delete obj.created_at;
-    obj.created_at = new Date(milliseconds);
+  return list.map(({ created_at, ...rest }) => {
+    return { ...rest, created_at: new Date(created_at) };
   });
-  return deepCopy;
 };
 
 exports.makeRefObj = list => {
@@ -18,7 +14,12 @@ exports.makeRefObj = list => {
 };
 
 exports.formatComments = (comments, articleRef) => {
-  return comments.map(({ belongs_to, created_by, ...rest }) => {
-    return { ...rest, author: created_by, article_id: articleRef[belongs_to] };
+  return comments.map(({ belongs_to, created_by, created_at, ...rest }) => {
+    return {
+      ...rest,
+      created_at: new Date(created_at),
+      author: created_by,
+      article_id: articleRef[belongs_to]
+    };
   });
 };
