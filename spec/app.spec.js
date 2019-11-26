@@ -225,6 +225,15 @@ describe("app", () => {
                   expect(msg).to.equal("article not found");
                 });
             });
+            it("status:400 for missing column in request body", () => {
+              return request(app)
+                .post("/api/articles/1/comments")
+                .send({ username: "butter_bridge" })
+                .expect(400)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal("bad request");
+                });
+            });
           });
         });
       });
