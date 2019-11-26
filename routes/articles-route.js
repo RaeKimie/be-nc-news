@@ -3,7 +3,7 @@ const { handle405s } = require("../errors");
 const { getArticleById } = require("../controllers/articles-controllers");
 
 articlesRouter
-  .route("/:username")
+  .route("/:article_id")
   .get(getArticleById)
   .all(handle405s);
 
