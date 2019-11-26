@@ -106,8 +106,26 @@ describe("app", () => {
                   "topic",
                   "created_at",
                   "votes",
-                  "comment_count"
+                  "comment_count",
+                  "author"
                 );
+                expect(article.comment_count).to.equal("13");
+              });
+          });
+          it("status:400 for invalid article_id", () => {
+            return request(app)
+              .get("/api/articles/not-valid")
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("bad request");
+              });
+          });
+          it("status: 404 for valid but non-existent article_id", () => {
+            return request(app)
+              .get("/api/articles/100")
+              .expect(404)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("article not found");
               });
           });
         });

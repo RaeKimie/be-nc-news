@@ -1,12 +1,15 @@
 const knex = require("../db/connection");
 exports.fetchArticle = ({ article_id }) => {
   return knex
-    .select("articles.*", "comment_id")
+    .select("articles.*")
+    .count("comment_id as comment_count")
     .from("articles")
-    .join("comments", "articles.article_id", "=", "comments.article_id")
+    .leftJoin("comments", "articles.article_id", "=", "comments.article_id")
     .where("articles.article_id", article_id)
-    .then(what => {
-      console.log(what);
-      return what;
+    .groupBy("articles.article_id")
+    .then(article => {
+      return article.length === 0
+        ? Promise.reject({ status: 404, msg: "article not found" })
+        : article;
     });
 };
