@@ -188,7 +188,7 @@ describe("app", () => {
             return Promise.all(promises);
           });
         });
-        describe("/comments", () => {
+        describe.only("/comments", () => {
           describe("POST", () => {
             it("status:201 responds with a new comment object", () => {
               return request(app)
@@ -205,6 +205,24 @@ describe("app", () => {
                     "created_at",
                     "body"
                   );
+                });
+            });
+            it("status:400 for invalid article_id", () => {
+              return request(app)
+                .post("/api/articles/notvalid/comments")
+                .send({ username: "butter_bridge", body: "test" })
+                .expect(400)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal("bad request");
+                });
+            });
+            it("status:404 for valid but non-existent article_id", () => {
+              return request(app)
+                .post("/api/articles/100/comments")
+                .send({ username: "butter_bridge", body: "test" })
+                .expect(404)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal("article not found");
                 });
             });
           });
