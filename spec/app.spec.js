@@ -129,6 +129,65 @@ describe("app", () => {
               });
           });
         });
+        describe("PATCH", () => {
+          it("status:200 responds with a updated article object", () => {
+            return request(app)
+              .patch("/api/articles/1")
+              .send({ inc_votes: 1 })
+              .expect(200)
+              .then(({ body: { article } }) => {
+                expect(article.votes).to.equal(101);
+              });
+          });
+          it("status:400 for invalid article_id", () => {
+            return request(app)
+              .patch("/api/articles/not-valid")
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("bad request");
+              });
+          });
+          it("status: 404 for valid but non-existent article_id", () => {
+            return request(app)
+              .get("/api/articles/100")
+              .expect(404)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("article not found");
+              });
+          });
+          it("status:400 for invalid request data type", () => {
+            return request(app)
+              .patch("/api/articles/1")
+              .send({ inc_votes: "wrongData" })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("bad request");
+              });
+          });
+          it("status:200 for missing column in request body", () => {
+            return request(app)
+              .patch("/api/articles/1")
+              .send({})
+              .expect(200)
+              .then(({ body: { article } }) => {
+                expect(article.votes).to.equal(100);
+              });
+          });
+        });
+        describe("INVALID METHODS", () => {
+          it("status:405 for invalid method", () => {
+            const methods = ["delete", "put", "post"];
+            const promises = methods.map(method => {
+              return request(app)
+                [method]("/api/articles/1")
+                .expect(405)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal("method not allowed");
+                });
+            });
+            return Promise.all(promises);
+          });
+        });
       });
     });
   });

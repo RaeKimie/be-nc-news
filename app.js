@@ -7,6 +7,8 @@ const {
   handleCustoms,
   handle400s
 } = require("./errors");
+
+app.use(express.json());
 app.use("/api", apiRouter);
 app.use("/*", handle404s);
 app.use(handle400s);
