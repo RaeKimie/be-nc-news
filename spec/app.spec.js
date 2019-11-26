@@ -188,6 +188,27 @@ describe("app", () => {
             return Promise.all(promises);
           });
         });
+        describe("/comments", () => {
+          describe("POST", () => {
+            it("status:201 responds with a new comment object", () => {
+              return request(app)
+                .post("/api/articles/1/comments")
+                .send({ username: "butter_bridge", body: "test" })
+                .expect(201)
+                .then(({ body: { comment } }) => {
+                  expect(comment.author).to.equal("butter_bridge");
+                  expect(comment).to.have.all.keys(
+                    "comment_id",
+                    "author",
+                    "article_id",
+                    "votes",
+                    "created_at",
+                    "body"
+                  );
+                });
+            });
+          });
+        });
       });
     });
   });
