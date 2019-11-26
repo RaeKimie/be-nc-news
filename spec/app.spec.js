@@ -234,6 +234,15 @@ describe("app", () => {
                   expect(msg).to.equal("bad request");
                 });
             });
+            it("status:422 for non-existent username", () => {
+              return request(app)
+                .post("/api/articles/1/comments")
+                .send({ username: "test", body: "test" })
+                .expect(422)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal("unprocessable entity");
+                });
+            });
           });
         });
       });
