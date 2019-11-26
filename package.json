@@ -10,7 +10,8 @@
     "test": "mocha spec/app.spec.js",
     "make-migrate": "knex migrate:make",
     "migrate-latest": "knex migrate:latest",
-    "migrate-rollback": "knex migrate:rollback"
+    "migrate-rollback": "knex migrate:rollback",
+    "query": " psql -f ./db/query.sql>output.txt"
   },
   "repository": {
     "type": "git",

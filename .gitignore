@@ -1,3 +1,5 @@
 node_modules
 config.js
 plan.txt
+db/query.sql
+output.txt
