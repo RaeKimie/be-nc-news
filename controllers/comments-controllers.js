@@ -1,9 +1,8 @@
 const { addComment } = require("../models/comments-models");
-const { fetchArticle } = require("../models/articles-models");
-const { checkIfUsernameExists } = require("../models/checkIfExists");
+const { checkArticleExists } = require("../models/checkIfExists");
 
 exports.postNewComment = (req, res, next) => {
-  fetchArticle(req.params)
+  checkArticleExists(req.params)
     .then(() => {
       return addComment(req.params, req.body);
     })

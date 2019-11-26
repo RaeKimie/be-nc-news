@@ -5,12 +5,14 @@ const {
   handle500s,
   handle404s,
   handleCustoms,
-  handle400s
+  handle400s,
+  handle422s
 } = require("./errors");
 
 app.use(express.json());
 app.use("/api", apiRouter);
 app.use("/*", handle404s);
+app.use(handle422s);
 app.use(handle400s);
 app.use(handleCustoms);
 

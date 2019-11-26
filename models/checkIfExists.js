@@ -1,10 +1,21 @@
 const knex = require("../db/connection");
 
-exports.checkIfUsernameExists = ({ username }) => {
+exports.checkArticleExists = ({ article_id }) => {
+  return knex("articles")
+    .select("*")
+    .where("article_id", article_id)
+    .then(([article]) => {
+      if (!article)
+        return Promise.reject({ status: 404, msg: "article not found" });
+    });
+};
+
+exports.checkUsernameExists = ({ author }) => {
   return knex("users")
     .select("*")
-    .where("username", username)
-    .then(res => {
-      console.log(res, "<--in checkExists");
+    .where("username", author)
+    .then(([user]) => {
+      if (!user)
+        return Promise.reject({ status: 404, msg: "author not found" });
     });
 };

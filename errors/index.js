@@ -3,7 +3,11 @@ exports.handle400s = (err, req, res, next) => {
   if (errCode.includes(err.code)) res.status(400).send({ msg: "bad request" });
   else next(err);
 };
-
+exports.handle422s = (err, req, res, next) => {
+  if (err.code == "23503")
+    res.status(422).send({ msg: "unprocessable entity" });
+  else next(err);
+};
 exports.handleCustoms = (err, req, res, next) => {
   if (err.status) res.status(err.status).send({ msg: err.msg });
   else next(err);

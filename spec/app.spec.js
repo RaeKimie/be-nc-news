@@ -188,7 +188,7 @@ describe("app", () => {
             return Promise.all(promises);
           });
         });
-        describe.only("/comments", () => {
+        describe("/comments", () => {
           describe("POST", () => {
             it("status:201 responds with a new comment object", () => {
               return request(app)
