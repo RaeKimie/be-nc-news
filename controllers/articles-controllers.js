@@ -1,5 +1,7 @@
 const { fetchArticle, updateArticle } = require("../models/articles-models");
 
+const { checkUsernameExists } = require("../models/checkIfExists");
+
 exports.getArticleById = (req, res, next) => {
   fetchArticle(req.params)
     .then(([article]) => {
@@ -17,7 +19,9 @@ exports.patchArticleById = (req, res, next) => {
 };
 
 exports.getAllArticles = (req, res, next) => {
-  fetchArticle(req.query).then(articles => {
-    res.status(200).send({ articles });
-  });
+  fetchArticle(req.query)
+    .then(articles => {
+      res.status(200).send({ articles });
+    })
+    .catch(next);
 };

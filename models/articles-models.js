@@ -1,5 +1,11 @@
 const knex = require("../db/connection");
-exports.fetchArticle = ({ article_id }) => {
+exports.fetchArticle = ({
+  article_id,
+  sort_by = "created_at",
+  order = "desc",
+  author,
+  topic
+}) => {
   return knex
     .select(
       "articles.author",
@@ -15,6 +21,9 @@ exports.fetchArticle = ({ article_id }) => {
     .modify(query => {
       if (article_id)
         query.where("articles.article_id", article_id).select("articles.*");
+      if (sort_by || order) query.orderBy(sort_by, order);
+      if (author) query.where("articles.author", author);
+      if (topic) query.where("topic", topic);
     })
     .groupBy("articles.article_id")
     .then(article => {

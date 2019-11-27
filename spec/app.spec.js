@@ -309,7 +309,7 @@ describe("app", () => {
                   expect(msg).to.equal("article not found");
                 });
             });
-            it("status:400 for invalid article_id", () => {
+            it("status:400 for invalid sort by column", () => {
               return request(app)
                 .get("/api/articles/1/comments?sort_by=not-a-Column")
                 .expect(400)
@@ -358,6 +358,63 @@ describe("app", () => {
                 "votes",
                 "comment_count"
               );
+              expect(articles[0].comment_count).to.equal("13");
+            });
+        });
+        it("status:200 default sort by created_at", () => {
+          return request(app)
+            .get("/api/articles")
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.descendingBy("created_at");
+            });
+        });
+        it("status:200 sort by given column in query", () => {
+          return request(app)
+            .get("/api/articles?sort_by=title")
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.descendingBy("title");
+            });
+        });
+        it("status:200 sort by given column and order in query", () => {
+          return request(app)
+            .get("/api/articles?sort_by=author&order=asc")
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.ascendingBy("author");
+            });
+        });
+        it("status:200 filter by author when given in query", () => {
+          return request(app)
+            .get("/api/articles?author=butter_bridge")
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles.length).to.equal(3);
+            });
+        });
+        it("status:200 filter by author when given in query", () => {
+          return request(app)
+            .get("/api/articles?topic=mitch")
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles.length).to.equal(11);
+            });
+        });
+        it("status:400 for invalid sort by column ", () => {
+          return request(app)
+            .get("/api/articles?sort_by=not-a-column")
+            .expect(400)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.equal("bad request");
+            });
+        });
+        it("status:404 for non existent author", () => {
+          return request(app)
+            .get("/api/articles?author=not-a-username")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.equal("author not found");
             });
         });
       });
