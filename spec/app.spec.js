@@ -4,7 +4,8 @@ const request = require("supertest");
 const app = require("../app.js");
 const chai = require("chai");
 const { expect } = chai;
-
+const chaiSorted = require("chai-sorted");
+chai.use(chaiSorted);
 const knex = require("../db/connection");
 
 beforeEach(() => knex.seed.run());
@@ -244,6 +245,120 @@ describe("app", () => {
                 });
             });
           });
+          describe("GET", () => {
+            it("status:200 responds with an array of comment objects", () => {
+              return request(app)
+                .get("/api/articles/1/comments")
+                .expect(200)
+                .then(({ body: { comments } }) => {
+                  expect(comments).to.be.an("array");
+                  expect(comments.length).to.equal(13);
+                });
+            });
+            it("status:200 each object contains expected keys", () => {
+              return request(app)
+                .get("/api/articles/1/comments")
+                .expect(200)
+                .then(({ body: { comments } }) => {
+                  expect(comments[0]).to.have.all.keys(
+                    "comment_id",
+                    "votes",
+                    "created_at",
+                    "author",
+                    "body"
+                  );
+                });
+            });
+            it("status:200 default sort by created_at", () => {
+              return request(app)
+                .get("/api/articles/1/comments")
+                .expect(200)
+                .then(({ body: { comments } }) => {
+                  expect(comments).to.be.descendingBy("created_at");
+                });
+            });
+            it("status:200 sort by given column in query", () => {
+              return request(app)
+                .get("/api/articles/1/comments?sort_by=comment_id")
+                .expect(200)
+                .then(({ body: { comments } }) => {
+                  expect(comments).to.be.descendingBy("comment_id");
+                });
+            });
+            it("status:200 sort by given column and given order in query", () => {
+              return request(app)
+                .get("/api/articles/1/comments?sort_by=comment_id&order=asc")
+                .expect(200)
+                .then(({ body: { comments } }) => {
+                  expect(comments).to.be.ascendingBy("comment_id");
+                });
+            });
+            it("status:400 for invalid article_id", () => {
+              return request(app)
+                .get("/api/articles/invalid/comments")
+                .expect(400)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal("bad request");
+                });
+            });
+            it("status:404 for valid but non-existent article_id", () => {
+              return request(app)
+                .get("/api/articles/100/comments")
+                .expect(404)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal("article not found");
+                });
+            });
+            it("status:400 for invalid article_id", () => {
+              return request(app)
+                .get("/api/articles/1/comments?sort_by=not-a-Column")
+                .expect(400)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal("bad request");
+                });
+            });
+          });
+          describe("INVALID METHODS", () => {
+            it("status:405 for invalid method", () => {
+              const methods = ["delete", "put", "patch"];
+              const promises = methods.map(method => {
+                return request(app)
+                  [method]("/api/articles/1/comments")
+                  .expect(405)
+                  .then(({ body: { msg } }) => {
+                    expect(msg).to.equal("method not allowed");
+                  });
+              });
+              return Promise.all(promises);
+            });
+          });
+        });
+      });
+      describe("GET", () => {
+        it("status:200 responds with an array of article Object", () => {
+          return request(app)
+            .get("/api/articles")
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles).to.be.an("array");
+              expect(articles.length).to.equal(12);
+            });
+        });
+        it("status:200 each object contains expected keys", () => {
+          return request(app)
+            .get("/api/articles")
+            .expect(200)
+            .then(({ body: { articles } }) => {
+              expect(articles[0]).to.have.all.keys(
+                "author",
+                "title",
+                "article_id",
+                "topic",
+                "created_at",
+                "votes",
+                "comment_count"
+              );
+            });
         });
       });
     });

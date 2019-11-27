@@ -15,3 +15,9 @@ exports.patchArticleById = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.getAllArticles = (req, res, next) => {
+  fetchArticle(req.query).then(articles => {
+    res.status(200).send({ articles });
+  });
+};
