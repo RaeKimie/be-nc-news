@@ -441,5 +441,56 @@ describe("app", () => {
         });
       });
     });
+    describe("/comments", () => {
+      describe("/:comment_id", () => {
+        describe("PATCH", () => {
+          it("status:200 responds with a updated comment object", () => {
+            return request(app)
+              .patch("/api/comments/1")
+              .send({ inc_votes: 10 })
+              .expect(200)
+              .then(({ body: { comment } }) => {
+                expect(comment.votes).to.equal(26);
+              });
+          });
+          it("status:400 for invalid article_id", () => {
+            return request(app)
+              .patch("/api/comments/invalid")
+              .send({ inc_votes: 10 })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("bad request");
+              });
+          });
+          it("status:404 for valid but non-existent article_id", () => {
+            return request(app)
+              .patch("/api/comments/100")
+              .send({ inc_votes: 10 })
+              .expect(404)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("comment not found");
+              });
+          });
+          it("status:200 for missing column in request body", () => {
+            return request(app)
+              .patch("/api/comments/1")
+              .send({})
+              .expect(200)
+              .then(({ body: { comment } }) => {
+                expect(comment.votes).to.equal(16);
+              });
+          });
+          it("status:400 for invalid request data type", () => {
+            return request(app)
+              .patch("/api/comments/100")
+              .send({ inc_votes: "wrongData" })
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("bad request");
+              });
+          });
+        });
+      });
+    });
   });
 });

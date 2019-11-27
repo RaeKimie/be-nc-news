@@ -1,4 +1,8 @@
-const { addComment, fetchAllComments } = require("../models/comments-models");
+const {
+  addComment,
+  fetchAllComments,
+  updateComment
+} = require("../models/comments-models");
 const { checkArticleExists } = require("../models/checkIfExists");
 
 exports.postNewComment = (req, res, next) => {
@@ -19,6 +23,14 @@ exports.getCommentsByArticleId = (req, res, next) => {
     })
     .then(comments => {
       res.status(200).send({ comments });
+    })
+    .catch(next);
+};
+
+exports.patchCommentById = (req, res, next) => {
+  updateComment(req.params, req.body)
+    .then(([comment]) => {
+      res.status(200).send({ comment });
     })
     .catch(next);
 };

@@ -15,3 +15,15 @@ exports.fetchAllComments = (
     .where("article_id", "=", article_id)
     .orderBy(sort_by, order);
 };
+
+exports.updateComment = ({ comment_id }, { inc_votes = 0 }) => {
+  return knex("comments")
+    .where("comment_id", "=", comment_id)
+    .increment("votes", inc_votes)
+    .returning("*")
+    .then(comment => {
+      return comment.length === 0
+        ? Promise.reject({ status: 404, msg: "comment not found" })
+        : comment;
+    });
+};
