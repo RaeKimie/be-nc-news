@@ -417,6 +417,28 @@ describe("app", () => {
               expect(msg).to.equal("author not found");
             });
         });
+        it("status:404 for non existent topic", () => {
+          return request(app)
+            .get("/api/articles?topic=not-a-slug")
+            .expect(404)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.equal("topic not found");
+            });
+        });
+      });
+      describe("INVALID METHODS", () => {
+        it("status:405 for invalid method", () => {
+          const methods = ["delete", "put", "post", "patch"];
+          const promises = methods.map(method => {
+            return request(app)
+              [method]("/api/articles")
+              .expect(405)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("method not allowed");
+              });
+          });
+          return Promise.all(promises);
+        });
       });
     });
   });

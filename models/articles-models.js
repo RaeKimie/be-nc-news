@@ -27,7 +27,7 @@ exports.fetchArticle = ({
     })
     .groupBy("articles.article_id")
     .then(article => {
-      return article.length === 0
+      return article_id && article.length === 0
         ? Promise.reject({ status: 404, msg: "article not found" })
         : article;
     });
