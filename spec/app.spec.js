@@ -513,6 +513,20 @@ describe("app", () => {
               });
           });
         });
+        describe("INVALID METHODS", () => {
+          it("status:405 for invalid method", () => {
+            const methods = ["put", "post", "get"];
+            const promises = methods.map(method => {
+              return request(app)
+                [method]("/api/comments/1")
+                .expect(405)
+                .then(({ body: { msg } }) => {
+                  expect(msg).to.equal("method not allowed");
+                });
+            });
+            return Promise.all(promises);
+          });
+        });
       });
     });
   });
