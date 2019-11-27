@@ -1,12 +1,20 @@
 const knex = require("../db/connection");
 exports.fetchArticle = ({ article_id }) => {
   return knex
-    .select("articles.*")
+    .select(
+      "articles.author",
+      "articles.votes",
+      "articles.created_at",
+      "topic",
+      "title",
+      "articles.article_id"
+    )
     .count("comment_id as comment_count")
     .from("articles")
     .leftJoin("comments", "articles.article_id", "=", "comments.article_id")
     .modify(query => {
-      if (article_id) query.where("articles.article_id", article_id);
+      if (article_id)
+        query.where("articles.article_id", article_id).select("articles.*");
     })
     .groupBy("articles.article_id")
     .then(article => {
