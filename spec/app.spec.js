@@ -490,6 +490,29 @@ describe("app", () => {
               });
           });
         });
+        describe("DELETE", () => {
+          it("status:204 removes comment", () => {
+            return request(app)
+              .delete("/api/comments/1")
+              .expect(204);
+          });
+          it("status:400 for invalid comment_id", () => {
+            return request(app)
+              .delete("/api/comments/invalid")
+              .expect(400)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("bad request");
+              });
+          });
+          it("status:404 for valid but non-existent comment_id", () => {
+            return request(app)
+              .delete("/api/comments/100")
+              .expect(404)
+              .then(({ body: { msg } }) => {
+                expect(msg).to.equal("comment not found");
+              });
+          });
+        });
       });
     });
   });
