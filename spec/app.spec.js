@@ -221,9 +221,9 @@ describe("app", () => {
               return request(app)
                 .post("/api/articles/100/comments")
                 .send({ username: "butter_bridge", body: "test" })
-                .expect(404)
+                .expect(422)
                 .then(({ body: { msg } }) => {
-                  expect(msg).to.equal("article not found");
+                  expect(msg).to.equal("unprocessable entity");
                 });
             });
             it("status:400 for missing column in request body", () => {

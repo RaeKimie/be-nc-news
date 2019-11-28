@@ -20,7 +20,7 @@ exports.checkUsernameExists = ({ author }) => {
     });
 };
 
-exports.checkTopiceExists = ({ topic }) => {
+exports.checkTopicExists = ({ topic }) => {
   return knex("topics")
     .select("*")
     .where("slug", topic)
