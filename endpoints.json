@@ -23,5 +23,85 @@
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves an article object corresponding to the given article_id",
+    "queries": [],
+    "exampleResponse": {
+      "article": {
+        "article_id": 1,
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "votes": 10,
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "comment_count": 13,
+        "created_at": 1527695953341
+      }
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "serves a updated article object",
+    "queries": [],
+    "requestBody": {
+      "inc_votes": "newVote, which changes article's value of votes property"
+    },
+    "exampleRequestBody": { "inc_votes": 10 },
+    "exampleResponse": {
+      "article": {
+        "article_id": 1,
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "votes": 20,
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "created_at": 1527695953341
+      }
+    }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "serves a new comment object",
+    "queries": [],
+    "requestBody": {
+      "username": "existing username",
+      "body": "Text for new comment"
+    },
+    "exampleRequestBody": { "username": "happyDay", "body": "Test input" },
+    "exampleResponse": {
+      "comment": {
+        "comment_id": 10,
+        "author": "happyDay",
+        "article_id": 1,
+        "votes": 0,
+        "created_at": 1527695953342,
+        "body": "Test input"
+      }
+    },
+    "GET /api/articles/:article_id/comments": {
+      "description": "serves an array of comment objects in the article",
+      "queries": ["sort_by", "order"],
+      "exampleResponse": {
+        "comments": [
+          {
+            "comment_id": 10,
+            "author": "happyDay",
+            "article_id": 1,
+            "votes": 0,
+            "created_at": 1527695953342,
+            "body": "Text from the comment "
+          },
+          {
+            "comment_id": 1,
+            "author": "lalala",
+            "article_id": 1,
+            "votes": 10,
+            "created_at": 1527695953242,
+            "body": "Text from the comment"
+          }
+        ]
+      }
+    },
+    "PATCH /api/comments/:comment_id": {},
+    "DELETE /api/comments/:comment_id": {}
   }
 }
