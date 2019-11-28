@@ -44,7 +44,7 @@
     "description": "serves a updated article object",
     "queries": [],
     "requestBody": {
-      "inc_votes": "newVote, which changes article's value of votes property"
+      "inc_votes": "newVote, which the value of the votes property"
     },
     "exampleRequestBody": { "inc_votes": 10 },
     "exampleResponse": {
@@ -101,7 +101,29 @@
         ]
       }
     },
-    "PATCH /api/comments/:comment_id": {},
-    "DELETE /api/comments/:comment_id": {}
+    "PATCH /api/comments/:comment_id": {
+      "description": "serves a updated comment object",
+      "queries": [],
+      "requestBody": {
+        "inc_votes": "newVote, which changes the value of the votes property"
+      },
+      "exampleRequestBody": {
+        "inc_votes": 10
+      },
+      "exampleResponse": {
+        "comment": {
+          "comment_id": 1,
+          "author": "lalala",
+          "article_id": 1,
+          "votes": 20,
+          "created_at": 1527695953242,
+          "body": "Text from the comment"
+        }
+      }
+    },
+    "DELETE /api/comments/:comment_id": {
+      "description": "removes a comment by id",
+      "queries": []
+    }
   }
 }
