@@ -21,6 +21,41 @@ describe("app", () => {
       });
   });
   describe("/api", () => {
+    describe("GET", () => {
+      it("status:200 responds with a api documentation object", () => {
+        return request(app)
+          .get("/api")
+          .expect(200)
+          .then(({ body: { endpoints } }) => {
+            expect(endpoints).to.contains.keys(
+              "GET /api",
+              "GET /api/topics",
+              "GET /api/users/:username",
+              "GET /api/articles/:article_id",
+              "PATCH /api/articles/:article_id",
+              "POST /api/articles/:article_id/comments",
+              "GET /api/articles/:article_id/comments",
+              "GET /api/articles",
+              "PATCH /api/comments/:comment_id",
+              "DELETE /api/comments/:comment_id"
+            );
+          });
+      });
+    });
+    describe("INVALID METHODS", () => {
+      it("status:405 for invalid method", () => {
+        const methods = ["delete", "put", "patch", "post"];
+        const promises = methods.map(method => {
+          return request(app)
+            [method]("/api/users/butter_bridge")
+            .expect(405)
+            .then(({ body: { msg } }) => {
+              expect(msg).to.equal("method not allowed");
+            });
+        });
+        return Promise.all(promises);
+      });
+    });
     describe("/topics", () => {
       describe("GET", () => {
         it("status:200, responds with an array of topic objects", () => {
