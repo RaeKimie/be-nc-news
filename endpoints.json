@@ -3,7 +3,7 @@
     "description": "serves up a json representation of all the available endpoints of the api"
   },
   "GET /api/users/:username": {
-    "description": "serves a user object corresponding to the given article_id",
+    "description": "serves a user object corresponding to the given username",
     "queries": [],
     "exampleResponse": {
       "users": [
@@ -16,14 +16,14 @@
     }
   },
   "GET /api/topics": {
-    "description": "serves an array of all topics",
+    "description": "serves an array of all topic objects",
     "queries": [],
     "exampleResponse": {
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
   },
   "GET /api/articles": {
-    "description": "serves an array of all topics",
+    "description": "serves an array of all article objects",
     "queries": ["author", "topic", "sort_by", "order"],
     "exampleResponse": {
       "articles": [
@@ -54,7 +54,7 @@
     }
   },
   "PATCH /api/articles/:article_id": {
-    "description": "serves a updated article object",
+    "description": "serves an updated article object",
     "queries": [],
     "requestBody": {
       "inc_votes": "newVote, which the value of the votes property"
@@ -116,7 +116,7 @@
     }
   },
   "PATCH /api/comments/:comment_id": {
-    "description": "serves a updated comment object",
+    "description": "serves an updated comment object",
     "queries": [],
     "requestBody": {
       "inc_votes": "newVote, which changes the value of the votes property"
