@@ -1,11 +1,17 @@
 const knex = require("../db/connection");
-exports.fetchUserById = ({ username }) => {
+exports.selectUserById = ({ username, author }) => {
   return knex("users")
-    .select("*")
-    .where("username", username)
+    .modify(query => {
+      if (username) query.select("*").where("username", username);
+      if (author) query.select("username").where("username", author);
+    })
     .then(user => {
-      return user.length === 0
-        ? Promise.reject({ status: 404, msg: "user not found" })
-        : user;
+      if (username && user.length === 0) {
+        return Promise.reject({ status: 404, msg: "user not found" });
+      } else if (author && user.length === 0) {
+        return Promise.reject({ status: 404, msg: "author not found" });
+      } else {
+        return user;
+      }
     });
 };

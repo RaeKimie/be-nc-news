@@ -10,16 +10,6 @@ exports.checkArticleExists = ({ article_id }) => {
     });
 };
 
-exports.checkUsernameExists = ({ author }) => {
-  return knex("users")
-    .select("*")
-    .where("username", author)
-    .then(([user]) => {
-      if (!user)
-        return Promise.reject({ status: 404, msg: "author not found" });
-    });
-};
-
 exports.checkTopicExists = ({ topic }) => {
   return knex("topics")
     .select("*")

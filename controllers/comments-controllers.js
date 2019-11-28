@@ -1,6 +1,6 @@
 const {
   addComment,
-  fetchAllComments,
+  selectAllComments,
   updateComment,
   removeComment
 } = require("../models/comments-models");
@@ -16,7 +16,7 @@ exports.postNewComment = (req, res, next) => {
 
 exports.getCommentsByArticleId = (req, res, next) => {
   return Promise.all([
-    fetchAllComments(req.params, req.query),
+    selectAllComments(req.params, req.query),
     checkArticleExists(req.params)
   ])
     .then(([comments]) => {

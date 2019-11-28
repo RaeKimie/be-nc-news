@@ -1,5 +1,5 @@
 const knex = require("../db/connection");
 
-exports.fetchTopics = () => {
+exports.selectTopics = () => {
   return knex.select("*").from("topics");
 };

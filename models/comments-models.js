@@ -5,7 +5,7 @@ exports.addComment = ({ article_id }, { username, body }) => {
     .returning("*");
 };
 
-exports.fetchAllComments = (
+exports.selectAllComments = (
   { article_id },
   { sort_by = "created_at", order = "desc" }
 ) => {

@@ -1,5 +1,5 @@
 const knex = require("../db/connection");
-exports.fetchArticle = ({
+exports.selectArticle = ({
   article_id,
   sort_by = "created_at",
   order = "desc",
@@ -21,11 +21,11 @@ exports.fetchArticle = ({
     .modify(query => {
       if (article_id)
         query.where("articles.article_id", article_id).select("articles.*");
-      if (sort_by || order) query.orderBy(sort_by, order);
       if (author) query.where("articles.author", author);
       if (topic) query.where("topic", topic);
     })
     .groupBy("articles.article_id")
+    .orderBy(sort_by, order)
     .then(article => {
       return article_id && article.length === 0
         ? Promise.reject({ status: 404, msg: "article not found" })
