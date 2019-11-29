@@ -1,4 +1,4 @@
-# News-press Back-End Project:tada::satisfied:
+# News-press Back-End Project
 
 **This project has been setup to build the API endpoints for News-press Front-End project, which interacts with PSQL database using [Knex](http://knexjs.org/). **
 
@@ -36,7 +36,7 @@ In your terminal, cd into the cloned repo.
 
 `npm install` 
 
-Now, everything is installed you need to run this:exclamation::sparkles: 
+Now, everything is installed you need.:sparkles: 
 
 
 
@@ -58,7 +58,7 @@ exports.details = { username: "", password: "" };
 
 #### Mac user
 
-Delete a few lines in knexfile.js
+Delete a few lines in knexfile.js.
 
 **This is codes you need to delete.**
 
@@ -101,3 +101,35 @@ module.exports = { ...baseConfig, ...customConfig[ENV] };
 
 ### :stars: Step2
 
+Let's get familiar with the npm scripts you need to run the test.
+
+```javascript
+//in package.json file 
+"scripts": {
+    "setup-dbs": "psql -f ./db/setup.sql",
+    "seed": "knex seed:run",
+    "test-utils": "mocha spec/utils.spec.js",
+    "test": "mocha spec/app.spec.js",
+    "migrate-latest": "knex migrate:latest",
+    "migrate-rollback": "knex migrate:rollback"
+  }
+```
+
+- **setup-dbs** : Creates the database.
+- **migrate-rollback**: Takes the tables back to the last batch of migrations.
+- **migrate-latest**: Fills the tables with the data.
+- **seed**: Seeds the database with the data using util functions to manipulate the structure of the input data.
+- **test-utils**: Runs tests for utils functions.
+- **test**: Runs tests for server.
+
+
+
+## :house: Hosted Site
+
+This server has been hosted using Heroku. You can find it [here](https://news-press.herokuapp.com/api).
+
+
+
+## :clap:Acknowledgments
+
+Build under guidance and with help from the Northcoders Team.
