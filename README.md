@@ -1,6 +1,6 @@
 # News-press Back-End Project
 
-**This project has been setup to build the API endpoints for News-press Front-End project, which interacts with PSQL database using [Knex](http://knexjs.org/). **
+**This project has been setup to build the API endpoints for News-press Front-End project, which interacts with PSQL database using [Knex](http://knexjs.org/).** 
 
 
 
