@@ -4,6 +4,8 @@
 
 
 
+
+
 ## :star2: Getting Started
 
 You will need to follow the instructions below to run this repo.
@@ -13,8 +15,6 @@ You will need to follow the instructions below to run this repo.
 ### :scroll: Prerequisites
 
 This project has been built on the following versions of software and libraries.
-
-
 
 ```
 node v12.8.1
@@ -40,7 +40,11 @@ Now, everything is installed you need.:sparkles:
 
 
 
+
+
 ## :rocket: Running the tests 
+
+
 
 ### :stars: Step1
 
@@ -124,9 +128,13 @@ Let's get familiar with the npm scripts you need to run the test.
 
 
 
+
+
 ## :house: Hosted Site
 
 This server has been hosted using Heroku. You can find it [here](https://news-press.herokuapp.com/api).
+
+
 
 
 
