@@ -8,7 +8,7 @@
 
 ## :star2: Getting Started
 
-You will need to follow the instructions below to run this repo.
+You will need to follow the instructions below to play with this repo.
 
 
 
@@ -36,7 +36,7 @@ In your terminal, cd into the cloned repo.
 
 `npm install` 
 
-Now, everything is installed you need.:sparkles: 
+Now, everything you need is installed.:sparkles: 
 
 
 
@@ -64,7 +64,7 @@ exports.details = { username: "", password: "" };
 
 Delete a few lines in knexfile.js.
 
-**This is codes you need to delete.**
+**These are lines you need to delete.**
 
 ```javascript
 //in knexfile.js in root directory
@@ -105,7 +105,7 @@ module.exports = { ...baseConfig, ...customConfig[ENV] };
 
 ### :stars: Step2
 
-Let's get familiar with the npm scripts you need to run the test.
+Let's get familiar with the npm scripts.
 
 ```javascript
 //in package.json file 
