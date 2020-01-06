@@ -1,16 +1,10 @@
 # News-press Back-End Project
 
-**This project has been setup to build the API endpoints for News-press Front-End project, which interacts with PSQL database using [Knex](http://knexjs.org/).** 
-
-
-
-
+**This project has been setup to build the API endpoints for News-press Front-End project, which interacts with PSQL database using [Knex](http://knexjs.org/).**
 
 ## :star2: Getting Started
 
-You will need to follow the instructions below to play with this repo.
-
-
+You will need to follow the instructions below to navigate through this repo.
 
 ### :scroll: Prerequisites
 
@@ -24,8 +18,6 @@ knex v0.20.2
 node-postgres v7.14.0
 ```
 
-
-
 ### :bulb: Install
 
 `git clone https://github.com/RaeKimie/be-nc-news.git`
@@ -34,17 +26,11 @@ In your terminal, cd into the cloned repo.
 
 `cd be-nc-news`
 
-`npm install` 
+`npm install`
 
-Now, everything you need is installed.:sparkles: 
+Now, everything you need is installed.:sparkles:
 
-
-
-
-
-## :rocket: Running the tests 
-
-
+## :rocket: Running the tests
 
 ### :stars: Step1
 
@@ -58,8 +44,6 @@ exports.details = { username: "", password: "" };
 //put your own username and password for psql
 ```
 
-
-
 #### Mac user
 
 Delete a few lines in knexfile.js.
@@ -72,13 +56,10 @@ Delete a few lines in knexfile.js.
 const {
   details: { username, password }
 } = require("./config");
- 
- //all
- username, password
 
+//all
+username, password;
 ```
-
-
 
 **This is what your knexfile.js would look like after deletion.**
 
@@ -95,20 +76,18 @@ const baseConfig = {
 const customConfig = {
   production: { connection: `${DB_URL}?ssl=true` },
   development: { connection: { database: "nc_news" } },
-  test: { connection: { database: "nc_news_test"} }
+  test: { connection: { database: "nc_news_test" } }
 };
 
 module.exports = { ...baseConfig, ...customConfig[ENV] };
 ```
-
-
 
 ### :stars: Step2
 
 Let's get familiar with the npm scripts.
 
 ```javascript
-//in package.json file 
+//in package.json file
 "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
     "seed": "knex seed:run",
@@ -126,17 +105,9 @@ Let's get familiar with the npm scripts.
 - **test-utils**: Runs tests for utils functions.
 - **test**: Runs tests for server.
 
-
-
-
-
 ## :house: Hosted Site
 
 This server has been hosted using Heroku. You can find it [here](https://news-press.herokuapp.com/api).
-
-
-
-
 
 ## :clap:Acknowledgments
 
